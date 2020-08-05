@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("../header"); %>
+
+  <%- include("../menu"); %>
+<body>
+  <!-- Default form register -->
+<form id="signup" class="text-center border border-light p-5" action="#!">
+
+  <p class="h4 mb-4">Sign up</p>
+
+  <div class="form-row mb-4">
+      <div class="col">
+          <!-- name -->
+          <input type="text" id="name" class="form-control" placeholder="Name" required>
+      </div>
+  </div>
+
+  <!-- E-mail -->
+  <input type="email" id="email" class="form-control mb-4" placeholder="E-mail" required>
+
+  <!-- Password -->
+  <input type="password" id="password" class="form-control" placeholder="Password" aria-describedby="defaultRegisterFormPasswordHelpBlock" required>
+
+  <small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
+      At least 8 characters and 1 digit
+  </small>
+
+  <!-- Sign up button -->
+  <button class="btn btn-info my-4 btn-block" type="submit">Sign up</button>
+</form>
+<!-- Default form register -->
+
+
+  <%- include("../footer"); %>
+  <script>
+    $(function() { // jQuery의 Ajax로 프론트에서 백엔드에 접속
+      $("#signup").submit((event) => {
+        event.preventDefault(); // 백엔드로 넘길때 새로고침 하는걸 방지
+        // 등록
+        const name = $("#name").val();
+        const email = $("#email").val();
+        const password = $("#password").val();
+
+        $.ajax({
+          url: "/api/user/signup",
+          type: "POST",
+          data : { name, email, password },
+        }).done(() => { // 성공시
+          alert("회원가입 완료");
+          //location.href="/api/user/login"
+        }).fail((request, status, error)=> { // 실패시
+          alert(request.responseText)
+        })
+      }) // # : 아이디 식별자
+    });
+  </script>
+</body>
+</html>

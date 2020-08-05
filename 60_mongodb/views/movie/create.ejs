@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("../header"); %>
+
+  <%- include("../menu"); %>
+<body>
+  <form id = "createForm">
+
+  <!-- Default input -->
+  <label for="singer">Input Title</label>
+    <input
+    type="text"
+    id="title"
+    class="form-control"
+    required
+    />
+   <!-- <label for="singer">Input Singer</label> -->
+
+   <label for="title">Input Director</label>
+   <input
+    type="text"
+    id="director"
+    class="form-control"
+    required
+    />
+
+    <label for="title">Input Year</label>
+    <input
+     type="text"
+     id="year"
+     class="form-control"
+     required
+     />
+
+     <label for="title">Input Src</label>
+     <input
+      type="text"
+      id="src"
+      class="form-control"
+      required
+      />
+
+  <button
+  type="submit"
+  class="btn btn-primary"
+  >저장</button>
+</form>
+  <%- include("../footer"); %>
+  <script>
+    $(function() { // jQuery의 Ajax로 프론트에서 백엔드에 접속
+      $("#createForm").submit((event) => {
+        event.preventDefault(); // 백엔드로 넘길때 새로고침 하는걸 방지
+        // 등록
+        const title = $("#title").val();
+        const director = $("#director").val();
+        const year = $("#year").val();
+        const src = $("#src").val();
+        // console.log(singer, title);
+
+        $.ajax({
+          url: "/api/movie",
+          type: "POST",
+          data : { title, director, year, src },
+        }).done(() => { // 성공시
+          location.href="/api/movie"
+        }).fail((request, status, error)=> { // 실패시
+          alert(request.responseText)
+        })
+      }) // # : 아이디 식별자
+    });
+  </script>
+</body>
+</html>

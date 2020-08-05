@@ -1,0 +1,42 @@
+1. 관계형 데이터베이스 (Relational DataBase) : Oracle, MySQL, MariaDB, PostgreSQL, MSSQL
+- 테이블 스키마가 고정됨. (Fixed Schema), 데이터의 형식, 길이등이 고정됨.
+- SQL로 CRUD(Create, Read, Update, Delete) 처리를 함.
+- 신뢰성이 높음
+
+    2. NoSQL(Non SQL, Not Only SQL) : MongoDB
+    - 빅데이터가 유행하기 시작하면서 RDB의 한계가 드러났음. (RDB는 많은 데이터를 저장하기에 느림)
+    - RDB와 병행해서 사용함
+    - 스키마 제한이 없어 속도가 빠름
+    - 단순 검색 및 추가에 용이함
+
+3. MongoDB 설치 (https://dimigo.goorm.io/learn/lecture/17761/2020-node-js-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/lesson/856762/mongodb-%EC%84%A4%EC%B9%98-window)
+
+4. mongoDB 시작 
+- 서버 : mongod --dbpath=data
+- 사용자 : mongo
+
+5. mongoDB commands
+- db : 현재 데이터베이스 확인
+- show dbs : 데이터베이스 종류 조회
+- use "db명" : 해당 db로 이동, switch / create
+- db.createCollection("컬렉션명") : 해당 이름의 컬렉션 생성
+- show collections : 해당 db의 컬렉션 전체 조회
+- db."컬렉션명".drop() : 해당 컬렉션 삭제
+- db."컬렉션명".insert("JSON 형태 객쳬") : Document 생성
+- db."컬렉션명".find() : 전체조회
+- + .pretty() : 이쁘게보여줌
+- db.music.find({_id:0, singer:1, title:1}) : id를 제외한 값들을 보여줌
+- db.music.remove({삭제조건}) : 전체 데이터 삭제
+- db.dropDatabase() : 현재 DB 삭제
+
+- db.music.update({title : 아이유}, {singer : "1", title : "2"} / {조회조건}, {수정데이터}
+- db.music.update({조회조건}, {$set: {수정데이터}})
+
+mongodb.com-docs-server-Insert Documents~에 명령어들이 나와있음
+
+6. ODM(Object Document Mapping) 도구 - Mongoose
+- 데이터베이스랑 node.js를 연결하는 모듈
+- npm i mongoose
+- mongoose.connection 설정(https://mongoosejs.com/docs/index.html 참조)
+- Schema 생성 (models/music.js)
+- Model 생성 (mongoose.model)

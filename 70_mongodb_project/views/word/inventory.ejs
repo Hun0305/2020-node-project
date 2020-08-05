@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>나만의 단어장 - 국어 단어 달인</title>
+  </head>
+  <%- include("../header"); %>
+
+<body>
+  <%- include("../menu"); %>
+
+  <h1 style="padding-left: 20px; padding-top: 20px; padding-bottom: 20px;">나만의 단어장</h1>
+  <!-- Search form -->
+  <form class="form-inline" style="margin-left: 20px; margin-bottom: 25px;" id ="search">
+  <input class="form-control form-control-sm ml-3 w-75" id="query" type="text" placeholder="단어의 이름을 입력하세요."
+    aria-label="Search">
+    <button type="submit"><i class="fas fa-search" aria-hidden="true"></i></button>
+  </form>
+
+  <input type="hidden" id = "user_id" value= <%= user._id %>>
+
+  <form id = "inventory2">
+  <select class="browser-default custom-select" id = "inventory_word" style="width: 70%; margin-bottom: 50px; margin-left: 40px;">
+    <% result.forEach(word => { %>
+    <option value= <%= word._id %>><%= word._id%>. <%= word.name %></option>
+    <% }) %>
+  </select>
+  <button class = "btn btn-dark" type="submit" style="margin-right: 20px; margin-bottom: 50px;">단어장에서 삭제</button>
+</form>
+
+  <div class="row row-cols-1 row-cols-md-3">
+  <% result.forEach(word => { %>
+    <div class="col mb-4">
+      <!-- Card -->
+      <div class="card">
+        <!--Card content-->
+        <div class="card-body">
+          <!--Title-->
+          <h4 class="card-title"><%= word._id %>. <%= word.name %></h4>
+          
+          <!--Text-->
+          <p class="card-text">분류 : <%= word.category %></p>
+          <!--Text-->
+          <p class="card-text">뜻 : <%= word.meaning %></p>
+          <!--Text-->
+          <p class="card-text">예문 : <%= word.example %></p>
+          <!--Text-->
+          <p class="card-text">예문 의미 : <%= word.ex_meaning %></p>
+          <!--Text-->
+          <p class="card-text">작성자 : <%= word.username %></p>
+          <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+        </div>
+  
+      </div>
+      <!-- Card -->
+    </div>
+
+    <% }) %>
+  </div>
+  <%- include("../footer"); %>
+  <script>
+    const isEmpty = (value) => {
+    if (
+      value === "" ||
+      value === null ||
+      value === undefined ||
+      (value != null && typeof value == "object" && !Object.keys(value).length)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+    $(function() { // jQuery의 Ajax로 프론트에서 백엔드에 접속
+      $("#search").submit((event) => {
+        event.preventDefault(); // 백엔드로 넘길때 새로고침 하는걸 방지
+        // 등록
+        const query = $("#query").val();
+        if (isEmpty(query)) {
+          //console.log("query null");
+          alert("단어를 입력해주세요!")
+          return;
+        }else{
+          $.ajax({
+          url: "/api/word/justsearch/" + query,
+          type: "GET",
+        }).done((result) => { // 성공시
+          //console.log(result);
+          if(!isEmpty(result)){
+            location.href="/api/word/search/" + query;
+          }else{
+            alert("해당 단어가 존재하지 않습니다");
+          }
+        }).fail((request, status, error)=> { // 실패시
+          alert(request.responseText)
+          //alert("오류 발생...")
+        })
+        }
+
+        
+      }) // # : 아이디 식별자
+    });
+
+
+    $(function() {
+      $("#inventory2").submit((event) => {
+        const user_id = $("#user_id").val();
+        const word_id = $("#inventory_word").val();
+      $.ajax({
+          url: "/api/inventory/delete",
+          type: "DELETE",
+          data : { user_id, word_id },
+        }).done(() => { // 성공시
+          alert("인벤토리에서 삭제하기 완료");
+          location.reload();
+        }).fail((request, status, error)=> { // 실패시
+          alert(request.responseText)
+        })
+    })
+  });
+  </script>
+</body>
+</html>

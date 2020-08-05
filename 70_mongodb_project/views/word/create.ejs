@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>단어 추가 - 국어 단어 달인</title>
+  </head>
+  <%- include("../header"); %>
+
+  <%- include("../menu"); %>
+<body>
+  <input type="hidden" value="<%=user.nickname%>" id="username"> </input>
+  <!-- Default form register -->
+<form id="create" class="text-center border border-light p-5" action="#!">
+
+  <p class="h4 mb-4" style="text-align: left;">단어 추가</p>
+
+  <input type="text" id="name" style = "margin-bottom: 25px" class="form-control" placeholder="단어 이름" required>
+
+  <select class="browser-default custom-select" id="category">
+    <option selected>분류</option>
+    <option value="중세국어">중세국어</option>
+    <option value="사자성어">사자성어</option>
+    <option value="독서어휘">독서어휘</option>
+    <option value="문학어휘">문학어휘</option>
+    <option value="문학개념">문학개념</option>
+    <option value="문법개념">문법개념</option>
+  </select>
+
+  <input type="text" id="meaning" style = "margin-top : 25px; margin-bottom: 25px" class="form-control" placeholder="단어 뜻" required>
+
+  <input type="text" id="example" style = "margin-bottom: 25px" class="form-control" placeholder="예문" required>
+
+  <input type="text" id="ex_meaning" style = "margin-bottom: 25px" class="form-control" placeholder="예문 의미">
+  <!-- Sign up button -->
+  <button class="btn btn-dark" id = "create" type="submit" style="width: 300px;">추가</button>
+</form>
+<!-- Default form register -->
+
+
+  <%- include("../footer"); %>
+  <script>  
+    $(function() { // jQuery의 Ajax로 프론트에서 백엔드에 접속
+      $("#create").submit((event) => {
+        event.preventDefault(); // 백엔드로 넘길때 새로고침 하는걸 방지
+        // 등록
+        const name = $("#name").val();
+        const category = $("#category").val();
+        if (category == "분류")
+          return alert("분류를 입력해주세요!");
+        const meaning = $("#meaning").val();
+        const example = $("#example").val();
+        const ex_meaning = $("#ex_meaning").val();
+        const username = $("#username").val();
+
+        $.ajax({
+          url: "/api/word/create",
+          type: "POST",
+          data : { name, category, meaning, example, ex_meaning, username },
+        }).done(() => { // 성공시
+          alert("단어 등록 완료");
+          location.reload(); 
+        }).fail((request, status, error)=> { // 실패시
+          alert(request.responseText)
+        })
+      }
+      )
+    });
+  </script>
+</body>
+</html>

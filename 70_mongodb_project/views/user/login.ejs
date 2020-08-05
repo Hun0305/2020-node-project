@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("../header"); %>
+
+  <%- include("../menu"); %>
+<body>
+  <!-- Default form register -->
+<form id="login" class="text-center border border-light p-5" action="#!">
+
+  <p class="h4 mb-4">Login</p>
+
+  <img src="/icon_male.png" width="100" class="img-fluid" alt="" style="margin-left: auto; margin-right: auto; margin-bottom: 50px;">
+
+  <!-- E-mail -->
+  <input type="email" id="email" class="form-control mb-4" placeholder="E-mail" required>
+
+  <!-- Password -->
+  <input type="password" id="password" class="form-control" placeholder="Password" aria-describedby="defaultRegisterFormPasswordHelpBlock" required>
+
+  <small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
+      At least 8 characters and 1 digit
+  </small>
+
+  <!-- Sign up button -->
+  <button class="btn btn-dark" type="submit" style="width: 300px;">Login</button>
+</form>
+<!-- Default form register -->
+
+
+  <%- include("../footer"); %>
+  <script>
+    $(function() { // jQuery의 Ajax로 프론트에서 백엔드에 접속
+      $("#login").submit((event) => {
+        event.preventDefault(); // 백엔드로 넘길때 새로고침 하는걸 방지
+        // 등록
+        const email = $("#email").val();
+        const password = $("#password").val();
+
+        $.ajax({
+          url: "/api/user/login",
+          type: "POST",
+          data : { email, password },
+        }).done(() => { // 성공시
+          alert("로그인 성공"); // 토큰 만들어야됨 이제
+          location.href="/"
+        }).fail((request, status, error)=> { // 실패시
+          alert(request.responseText)
+        })
+      }) // # : 아이디 식별자
+    });
+  </script>
+</body>
+</html>

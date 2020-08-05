@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>오늘의 단어 - 국어 단어 달인</title>
+  </head>
+  <%- include("../header"); %>
+
+<body>
+  <%- include("../menu"); %>
+
+  <h1 style="padding-left: 20px; padding-top: 20px; padding-bottom: 20px;">오늘의 단어, <%= todaydate.date %>일</h1>
+
+  <div class="row row-cols-1 row-cols-md-3">
+    <div class="col mb-4">
+
+      <div class="card">
+        <!--Card content-->
+        <div class="card-body">
+          <!--Title-->
+          <h4 class="card-title"><%= result1._id %>. <%= result1.name %></h4>
+          <!--Text--> 
+          <p class="card-text">분류 : <%= result1.category %></p>
+          <!--Text-->
+          <p class="card-text">뜻 : <%= result1.meaning %></p>
+          <!--Text-->
+          <p class="card-text">예문 : <%= result1.example %></p>
+          <!--Text-->
+          <p class="card-text">예문 의미 : <%= result1.ex_meaning %></p>
+          <!--Text-->
+          <p class="card-text">작성자 : <%= result1.username %></p>
+        </div>
+      </div>
+      </div>
+      <div class="col mb-4">
+    <div class="card">
+      <!--Card content-->
+      <div class="card-body">
+        <!--Title-->
+        <h4 class="card-title"><%= result2._id %>. <%= result2.name %></h4>
+        <!--Text--> 
+        <p class="card-text">분류 : <%= result2.category %></p>
+        <!--Text-->
+        <p class="card-text">뜻 : <%= result2.meaning %></p>
+        <!--Text-->
+        <p class="card-text">예문 : <%= result2.example %></p>
+        <!--Text-->
+        <p class="card-text">예문 의미 : <%= result2.ex_meaning %></p>
+        <!--Text-->
+        <p class="card-text">작성자 : <%= result2.username %></p>
+      </div>
+    </div>
+      </div>
+
+      <div class="col mb-4">
+    <div class="card">
+      <!--Card content-->
+      <div class="card-body">
+        <!--Title-->
+        <h4 class="card-title"><%= result3._id %>. <%= result3.name %></h4>
+        <!--Text--> 
+        <p class="card-text">분류 : <%= result3.category %></p>
+        <!--Text-->
+        <p class="card-text">뜻 : <%= result3.meaning %></p>
+        <!--Text-->
+        <p class="card-text">예문 : <%= result3.example %></p>
+        <!--Text-->
+        <p class="card-text">예문 의미 : <%= result3.ex_meaning %></p>
+        <!--Text-->
+        <p class="card-text">작성자 : <%= result3.username %></p>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  
+
+  </div>
+  <%- include("../footer"); %>
+</body>
+</html>
